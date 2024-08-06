@@ -1,0 +1,32 @@
+/* Resets */ 
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+textarea {
+  resize: none;
+  padding: 0;
+} 
+
+body, p {
+  margin: 0;
+}
+
+input, select, button {
+  border: none;
+  font-family: inherit;
+}
+
+button {
+  background: none;
+}
+
+/* Base */ 
+/* Typography */ 
+/* Body */ 
