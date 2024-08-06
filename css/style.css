@@ -9,16 +9,11 @@ img {
   display: block;
 }
 
-textarea {
-  resize: none;
-  padding: 0;
-} 
-
-body, p {
+body, h1, h2, p {
   margin: 0;
 }
 
-input, select, button {
+input, button {
   border: none;
   font-family: inherit;
 }
@@ -27,6 +22,48 @@ button {
   background: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* Base */ 
+:root {
+  --container-min-height: 780px;
+  --header-height: 208px;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: lightgray;
+}
+.container {
+  width: 550px;
+  min-height: var(--container-min-height); 
+}
+.header {
+  background: url("../images/movies-bg.avif");
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#movies {
+  min-height: calc(var(--container-min-height) - (var(--header-height)));
+  background: white;
+}
+
 /* Typography */ 
-/* Body */ 
+.title, .nav-item {
+  color: white;
+}
+
+/* Movie Card */ 
+
+/* Other */ 
+.hide {
+  display: none;
+}
