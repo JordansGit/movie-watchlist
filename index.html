@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <link rel="stylesheet" href="./css/style.css">
 
   <title>Movie Watchlist</title>
@@ -14,14 +19,19 @@
     <header class="header">
       <h1 class="title">Find your film</h1>
       <nav><a class="nav-item" href="">My Watchlist</a></nav>
+      <form class="searchbar">
+        <i class="fa-solid fa-magnifying-glass fa-lg search-icon"></i>
+        <input type="text" class="searchbar-input" placeholder="Search for a movie">
+        <button class="searchbar-btn">Search</button>
+      </form>  
     </header>
-  
-    <form class="searchbar hide">
-  
-    </form>
-  
+    
     <main id="movies">
       <!-- display movies here -->
+      <div class="no-data-display">
+        <img class="no-data-icon" src="./images/no-data-icon.png">
+        <p class="no-data-text">Start exploring</p>
+      </div>
     </main>  
   </div>
 

@@ -26,7 +26,52 @@ a {
   text-decoration: none;
 }
 
+input:focus {
+  outline: none;
+}
+
+
+/* Typography */ 
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+.title, .nav-item {
+  color: white;
+}
+.title {
+  font-size: 2.7rem;
+  font-weight: 800;
+}
+.nav-item {
+  font-size: 0.875rem;
+  font-weight: bold;
+  letter-spacing: 0;
+}
+
+.no-data-text {
+  color: #DFDDDD;
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+
+.searchbar {
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.searchbar-input {
+  color: #6B7280;
+}
+
+.searchbar-btn {
+  color: #374151;
+  background: #F9FAFB;
+}
+
 /* Base */ 
+
 :root {
   --container-min-height: 780px;
   --header-height: 208px;
@@ -43,27 +88,71 @@ body {
   width: 550px;
   min-height: var(--container-min-height); 
 }
+
+
+/* ==========
+  Components 
+============*/ 
+
+/* Header */ 
 .header {
   background: url("../images/movies-bg.avif");
+  background-color: rgba(14, 14, 14, 0.8);
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-position: 0% 23.5%; 
   height: var(--header-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 42px;
+  position: relative;
 }
 
+/* Search Bar */ 
+.searchbar {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  width: 80%;
+}
+
+.searchbar-input {
+  border-radius: 6px 0 0 6px;
+  border: 1px solid #D1D5DB;
+  padding: 0.8em 1em 0.8em 3em;
+  flex: 1;
+}
+
+.search-icon {
+  color: #9CA3AF;
+  align-self: center;
+  position: absolute;
+  left: 0.8em;
+  margin-top: 4px;
+}
+
+.searchbar-btn {
+  border-radius:0 6px 6px 0;
+  border: 1px solid #D1D5DB;
+  padding: 0 3em;
+}
+
+
+/* Movies */ 
 #movies {
   min-height: calc(var(--container-min-height) - (var(--header-height)));
   background: white;
 }
 
-/* Typography */ 
-.title, .nav-item {
-  color: white;
+.no-data-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: inherit;
 }
 
 /* Movie Card */ 
-
-/* Other */ 
-.hide {
-  display: none;
-}
