@@ -170,42 +170,91 @@ body {
   width: 100px;
 }
 
+.movie-text-header, .movie-text-info {
+  display: flex;
+  align-items: center;
+}
 .movie-text {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  /* display: grid;
   grid-template-areas: 
-    "title star rating"
-    "time genre add-to-btn"
-    "description description description";
+    "title title star rating ."
+    "time genre genre genre add-to-btn"
+    "description description description description description"; */
+  /* grid-template-columns: auto auto auto auto auto; */
+  /* grid-template-columns: 85.0156px 51.8125px 51.5156px 52.5px 89.8281px */
+}
+.movie-title {
+  /* grid-area: title; */
+  /* grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2; */
+}
+.star {
+  /* grid-area: star; */
+  /* grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 2; */
+  /* align-self: center; */
+  margin: 0 0.5em 0 0.8em;
+}
+.movie-rating {
+  /* grid-area: rating; */
+  /* grid-column-start: 4;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 2; */
+  /* align-self: center; */
+
+}
+.movie-time {
+  /* grid-area: time; */
+  /* grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3; */
+  /* width: 50px; */
+
+}
+.movie-genre {
+  /* grid-area: genre; */
+  /* grid-column-start: 2;
+  grid-column-end: 5;
+  grid-row-start: 2;
+  grid-row-end: 3; */
+  margin: 0 3em 0 2em;
+}
+.movie-add-to-watchlist-btn {
+  /* grid-area: add-to-btn; */
+  /* grid-column-start: 5;
+  grid-column-end: 6;
+  grid-row-start: 2;
+  grid-row-end: 3; */
+
+}
+.movie-description {
+  grid-area: description;
+  /* grid-column-start: 1;
+  grid-column-end: 6; */
 }
 
 .movie-title {
   font-size: 1.125rem;
   font-weight: 500;
-  grid-area: title;
 }
 
 .star {
   color: #FEC654;
-  grid-area: star;
 }
 
 .movie-rating, .movie-time, .movie-genre, .movie-add-to-watchlist-btn {
   font-size: 0.75rem;
   font-weight: 400;
   color: #111827;
-}
-
-.movie-rating {
-  grid-area: rating;
-}
-.movie-time {
-  grid-area: time;
-}
-.movie-genre {
-  grid-area: genre;
-}
-.movie-add-to-watchlist-btn {
-  grid-area: add-to-btn;
 }
 
 .plus-btn {
@@ -215,7 +264,6 @@ body {
   font-size: 0.875rem;
   font-weight: 400;
   color: #6B7280;
-  grid-area: description;
 }
 
 

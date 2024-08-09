@@ -28,15 +28,19 @@ function getMovieCards(movie) {
       <article class="movie-card">
         <img class="movie-img" src=${movie.Poster}>
         <div class="movie-text">
-          <h2 class="movie-title">${movie.Title}</h2>
-          <i class="fa-solid fa-star fa-xs star"></i>
-          <p class="movie-rating">${movieRating}</p>
-          <p class="movie-time">${movie.Runtime}</p>
-          <p class="movie-genre">${movie.Genre}</p>
-          <button class="movie-add-to-watchlist">
-            <i class="fa-solid fa-circle-plus plus-btn"></i>
-            Watchlist
-          </button>
+          <div class="movie-text-header">
+            <h2 class="movie-title">${movie.Title}</h2>
+            <i class="fa-solid fa-star fa-xs star"></i>
+            <p class="movie-rating">${movieRating}</p>
+          </div>
+          <div class="movie-text-info">
+            <p class="movie-time">${movie.Runtime}</p>
+            <p class="movie-genre">${movie.Genre}</p>
+            <button class="movie-add-to-watchlist-btn">
+              <i class="fa-solid fa-circle-plus fa-lg plus-btn"></i>
+              Watchlist
+            </button>
+          </div>
           <p class="movie-description">${movie.Plot}</p>
         </div>
       </article>
