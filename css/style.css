@@ -51,10 +51,14 @@ body {
   letter-spacing: 0;
 }
 
-.no-data-text {
+.display-empty-text, .no-data-text {
   color: #DFDDDD;
   font-size: 1.125rem;
   font-weight: bold;
+}
+
+.no-data-text {
+  text-align: center;
 }
 
 .searchbar-input, .searchbar-btn {
@@ -163,12 +167,23 @@ body {
   padding: 3em;
 }
 
-.no-data-display {
+.display-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: inherit;
+}
+
+.no-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: inherit;
+}
+
+.no-data-text {
+  max-width: 320px;
 }
 
 /* Movie Card */ 
@@ -190,14 +205,28 @@ body {
   flex-direction: column;
   gap: 0.6em;
 }
-.movie-text-header, .movie-text-info {
+.movie-text-header {
   display: flex;
   align-items: center;
 }
+.movie-text-header > * {
+  display: inline-block;
+}
 
+.star, .movie-rating {
+  margin-top: -2px;
+}
+
+.movie-text-info {
+  display: flex;
+  align-items: center;
+}
+.movie-title {
+  margin-right: 0.8em;
+}
 .star {
   color: #FEC654;
-  margin: 0 0.5em 0 0.8em;
+  margin-right: 0.5em;
 }
 
 .movie-genre {

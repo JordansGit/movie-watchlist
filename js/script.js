@@ -1,18 +1,34 @@
 const moviesEl = document.getElementById('movies')
 const searchbarBtn = document.getElementById('searchbar-btn')
-const searchbarInput = document.getElementById('searchbar-btn')
+const searchbarInput = document.getElementById('searchbar-input')
 let moviesHtml = ''
 
-// async function handleClick(){}
+searchbarBtn.addEventListener('click', handleClick)
+
 // get search results from api call 
-fetch("http://www.omdbapi.com/?apikey=d30c0673&s=blade+runner")
-  .then(response => response.json())
-  .then(searchData => {
-    getMovieData(searchData.Search)
-  })
+async function handleClick(e) {
+  e.preventDefault()
+
+  if (!searchbarInput.value) {
+    return false
+  } else {
+    const searchQuery = searchbarInput.value.replace(/\s/g, "+")
+    const response = await fetch(`https://www.omdbapi.com/?apikey=d30c0673&s=${searchQuery}`)
+    const searchData = await response.json()
+  
+    if (searchData.Search) {
+      getMovieData(searchData.Search)
+    } else {
+      console.log(searchData)
+      displayNoData()
+    }  
+  }
+}
 
 // get movie data for each movie
 async function getMovieData(moviesList) {
+  moviesHtml = ''
+
   for (let movie of moviesList) {
     await displayMovieCards(movie)
   }
@@ -21,12 +37,15 @@ async function getMovieData(moviesList) {
 
 // display movie cards from data 
 async function displayMovieCards(movieData) {
-  const response = await fetch(`http://www.omdbapi.com/?apikey=d30c0673&i=${movieData.imdbID}`)
+  const response = await fetch(`https://www.omdbapi.com/?apikey=d30c0673&i=${movieData.imdbID}`)
   const movie = await response.json()
 
-  let movieRating = movie.Ratings[0].Value.substring(
-    0, movie.Ratings[0].Value.length - 3
-  )
+  let movieRating = ''
+  if (movie.Ratings[0]) {
+    movieRating = movie.Ratings[0].Value.substring(
+      0, movie.Ratings[0].Value.length - 3
+    )
+  }
 
   moviesHtml += `
     <article class="movie-card">
@@ -56,6 +75,17 @@ function render() {
   moviesEl.innerHTML = moviesHtml
 }
 
+// display no data function
+function displayNoData() {
+  moviesEl.innerHTML = `
+    <div class="no-data">
+      <p class="no-data-text">
+        Unable to find what you’re looking for. Please try another search.
+      </p>
+    </div>
+  `
+}
+
 
 /* 
 API Key: d30c0673
@@ -77,6 +107,9 @@ To Do:
 /* Learning Notes: 
 lines 13-18 async function getMovieData() {}
   forEach() doesn't work to make the fetch calls inside loop synchronous. idk why. but it works with for loop, doesn't work with forEach(). 
-  have to use async here because I need to use await before calling getMovieCards() so it gets each synchronously (previously it would do it async and it would load each movie in a different random order whereas we want it in the same order each time someone searches for that exact same result)
+  have to use async here because I need to use await before calling getMovieCards() so it gets each movie synchronously (previously it would do it async and it would load each movie in a different random order whereas we want it in the same order each time someone searches for that exact same result)
+
+lines 12, async function handleClick() {}
+  if evaluated the false statement 1st instead of last because it seems to make the API call much faster this way. not sure why. i.e. i've done if (!searchbarInput.value){...} instead of if (searchbarInput.value) {...}
 
 */ 
