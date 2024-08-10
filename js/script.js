@@ -5,6 +5,7 @@ let moviesHtml = ''
 let watchlistHtml = ''
 let myWatchlist = []
 
+// event listeners -> depending on which page we load. 
 if (!document.location.pathname.includes("watchlist.html")) {
   searchbarBtn.addEventListener('click', handleSubmitSearch)
   moviesEl.addEventListener('click', handleAddToWatchlist)
@@ -12,9 +13,6 @@ if (!document.location.pathname.includes("watchlist.html")) {
 else if (document.location.pathname.includes("watchlist.html")) {
   moviesEl.addEventListener('click', handleRemoveFromWatchlist)
 }
-
-// searchbarBtn.addEventListener('click', handleSubmitSearch)
-// moviesEl.addEventListener('click', handleAddToWatchlist)
 
 
 // get search results from api call 
@@ -132,8 +130,6 @@ if (document.location.pathname.includes("watchlist.html")) {
 
 // render watchlist 
 function renderWatchlist() {
-
-
   if (localStorage.getItem("myWatchlist")) {
     myWatchlist = JSON.parse(localStorage.getItem("myWatchlist"))
   }
