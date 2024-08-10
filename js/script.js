@@ -2,10 +2,16 @@ const moviesEl = document.getElementById('movies')
 const searchbarBtn = document.getElementById('searchbar-btn')
 const searchbarInput = document.getElementById('searchbar-input')
 let moviesHtml = ''
+let watchlistHtml = ''
 let myWatchlist = []
 
-searchbarBtn.addEventListener('click', handleSubmitSearch)
+if (!document.location.pathname.includes("watchlist.html")) {
+  searchbarBtn.addEventListener('click', handleSubmitSearch)
+}
+
+// searchbarBtn.addEventListener('click', handleSubmitSearch)
 moviesEl.addEventListener('click', handleAddToWatchlist)
+
 
 // get search results from api call 
 async function handleSubmitSearch(e) {
@@ -114,9 +120,14 @@ function handleAddToWatchlist(e) {
     }
   }
 
-  console.log(myWatchlist)
 }
 
+// on watchlist.html page load, run renderWatchlist 
+if (document.location.pathname.includes("watchlist.html")) {
+  renderWatchlist()
+}
+
+// render watchlist 
 function renderWatchlist() {
   let watchlistEmptyHtml = `
     <div class="watchlist-empty">
@@ -129,9 +140,64 @@ function renderWatchlist() {
       </p>
     </div>
   `
+
+  if (localStorage.getItem("myWatchlist")) {
+    myWatchlist = JSON.parse(localStorage.getItem("myWatchlist"))
+  }
+
+  if (myWatchlist.length === 0) {
+    moviesEl.innerHTML = watchlistEmptyHtml
+  } else {
+    displayWatchlist(myWatchlist)
+  }
+  
+  // const displayWatchlistHtml = myWatchlist.length > 0 ? watchlistHtml : watchlistEmptyHtml
+
+  // moviesEl.innerHTML = displayWatchlistHtml
 }
 
-console.log(document.location)
+// get movie data for each movie
+async function displayWatchlist(myWatchlist) {
+  watchlistHtml = ''
+
+  for (let id of myWatchlist) {
+    const response = await fetch(`https://www.omdbapi.com/?apikey=d30c0673&i=${id}`)
+    const movie = await response.json()
+
+    let movieRating = ''
+    if (movie.Ratings[0]) {
+      movieRating = movie.Ratings[0].Value.substring(
+        0, movie.Ratings[0].Value.length - 3
+      )
+    }
+  
+    watchlistHtml += `
+      <article class="movie-card">
+        <img class="movie-img" src=${movie.Poster}>
+        <div class="movie-text">
+          <div class="movie-text-header">
+            <h2 class="movie-title">${movie.Title}</h2>
+            <i class="fa-solid fa-star fa-xs star"></i>
+            <p class="movie-rating">${movieRating}</p>
+          </div>
+          <div class="movie-text-info">
+            <p class="movie-time">${movie.Runtime}</p>
+            <p class="movie-genre">${movie.Genre}</p>
+            <button class="movie-add-to-watchlist-btn" data-movie-id=${movie.imdbID}>
+              <i class="fa-solid fa-circle-plus fa-lg plus-btn"></i>
+              Watchlist
+            </button>
+          </div>
+          <p class="movie-description">${movie.Plot}</p>
+        </div>
+      </article>
+    `
+  }
+
+  moviesEl.innerHTML = watchlistHtml
+}
+
+
 
 
 /* 
@@ -148,6 +214,9 @@ To Do:
   add to watchlist btn 
   watchlist page 
   remove from watchlist btn 
+
+  REFACTOR 
+
 */
 
 
