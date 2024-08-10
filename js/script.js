@@ -2,12 +2,15 @@ const moviesEl = document.getElementById('movies')
 const searchbarBtn = document.getElementById('searchbar-btn')
 const searchbarInput = document.getElementById('searchbar-input')
 let moviesHtml = ''
+let myWatchlist = []
 
-searchbarBtn.addEventListener('click', handleClick)
+searchbarBtn.addEventListener('click', handleSubmitSearch)
+moviesEl.addEventListener('click', handleAddToWatchlist)
 
 // get search results from api call 
-async function handleClick(e) {
+async function handleSubmitSearch(e) {
   e.preventDefault()
+  // searchbarInput.value = 'blade runner'
 
   if (!searchbarInput.value) {
     return false
@@ -32,7 +35,7 @@ async function getMovieData(moviesList) {
   for (let movie of moviesList) {
     await displayMovieCards(movie)
   }
-  render()
+  renderMovieSearch()
 }
 
 // display movie cards from data 
@@ -59,7 +62,7 @@ async function displayMovieCards(movieData) {
         <div class="movie-text-info">
           <p class="movie-time">${movie.Runtime}</p>
           <p class="movie-genre">${movie.Genre}</p>
-          <button class="movie-add-to-watchlist-btn">
+          <button class="movie-add-to-watchlist-btn" data-movie-id=${movie.imdbID}>
             <i class="fa-solid fa-circle-plus fa-lg plus-btn"></i>
             Watchlist
           </button>
@@ -70,8 +73,8 @@ async function displayMovieCards(movieData) {
   `
 }
 
-// render dynamic html onto screen 
-function render() {
+// renderMovieSearch dynamic html onto screen 
+function renderMovieSearch() {
   moviesEl.innerHTML = moviesHtml
 }
 
@@ -85,6 +88,50 @@ function displayNoData() {
     </div>
   `
 }
+
+
+function handleAddToWatchlist(e) {
+  // Get Target Movie ID 
+  let targetMovieId
+  if (e.target.classList.contains('movie-add-to-watchlist-btn')) {
+    targetMovieId = e.target.dataset.movieId
+  } else if (e.target.classList.contains('plus-btn')) {
+    targetMovieId = e.target.parentElement.dataset.movieId
+  }
+
+  // If myWatchlist data exists in local storage, get it and save it to our watchlist variable. 
+  if (localStorage.getItem("myWatchlist")) {
+    myWatchlist = JSON.parse(localStorage.getItem("myWatchlist"))
+  }
+
+  // push new movie into our watchlist array. 
+  if (targetMovieId) {
+    if (!myWatchlist.includes(targetMovieId)){
+      myWatchlist.push(targetMovieId)
+      localStorage.setItem("myWatchlist", JSON.stringify(myWatchlist))
+    } else {
+      console.log("movie already in watchlist!")
+    }
+  }
+
+  console.log(myWatchlist)
+}
+
+function renderWatchlist() {
+  let watchlistEmptyHtml = `
+    <div class="watchlist-empty">
+      <p class="watchlist-empty-text-body">
+        Your watchlist is looking a little empty...
+      </p>
+      <p class="watchlist-empty-text-footer">
+        <i class="fa-solid fa-circle-plus fa-lg plus-btn"></i>
+        Let’s add some movies!
+      </p>
+    </div>
+  `
+}
+
+console.log(document.location)
 
 
 /* 
@@ -109,7 +156,7 @@ lines 13-18 async function getMovieData() {}
   forEach() doesn't work to make the fetch calls inside loop synchronous. idk why. but it works with for loop, doesn't work with forEach(). 
   have to use async here because I need to use await before calling getMovieCards() so it gets each movie synchronously (previously it would do it async and it would load each movie in a different random order whereas we want it in the same order each time someone searches for that exact same result)
 
-lines 12, async function handleClick() {}
+lines 12, async function handleSubmitSearch() {}
   if evaluated the false statement 1st instead of last because it seems to make the API call much faster this way. not sure why. i.e. i've done if (!searchbarInput.value){...} instead of if (searchbarInput.value) {...}
 
 */ 
