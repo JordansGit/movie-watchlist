@@ -7,10 +7,14 @@ let myWatchlist = []
 
 if (!document.location.pathname.includes("watchlist.html")) {
   searchbarBtn.addEventListener('click', handleSubmitSearch)
+  moviesEl.addEventListener('click', handleAddToWatchlist)
+} 
+else if (document.location.pathname.includes("watchlist.html")) {
+  moviesEl.addEventListener('click', handleRemoveFromWatchlist)
 }
 
 // searchbarBtn.addEventListener('click', handleSubmitSearch)
-moviesEl.addEventListener('click', handleAddToWatchlist)
+// moviesEl.addEventListener('click', handleAddToWatchlist)
 
 
 // get search results from api call 
@@ -68,7 +72,7 @@ async function displayMovieCards(movieData) {
         <div class="movie-text-info">
           <p class="movie-time">${movie.Runtime}</p>
           <p class="movie-genre">${movie.Genre}</p>
-          <button class="movie-add-to-watchlist-btn" data-movie-id=${movie.imdbID}>
+          <button class="movie-watchlist-btn" data-movie-id=${movie.imdbID}>
             <i class="fa-solid fa-circle-plus fa-lg plus-btn"></i>
             Watchlist
           </button>
@@ -99,7 +103,7 @@ function displayNoData() {
 function handleAddToWatchlist(e) {
   // Get Target Movie ID 
   let targetMovieId
-  if (e.target.classList.contains('movie-add-to-watchlist-btn')) {
+  if (e.target.classList.contains('movie-watchlist-btn')) {
     targetMovieId = e.target.dataset.movieId
   } else if (e.target.classList.contains('plus-btn')) {
     targetMovieId = e.target.parentElement.dataset.movieId
@@ -119,7 +123,6 @@ function handleAddToWatchlist(e) {
       console.log("movie already in watchlist!")
     }
   }
-
 }
 
 // on watchlist.html page load, run renderWatchlist 
@@ -129,6 +132,20 @@ if (document.location.pathname.includes("watchlist.html")) {
 
 // render watchlist 
 function renderWatchlist() {
+
+
+  if (localStorage.getItem("myWatchlist")) {
+    myWatchlist = JSON.parse(localStorage.getItem("myWatchlist"))
+  }
+
+  if (myWatchlist.length === 0) {
+    displayEmptyWatchlist()
+  } else {
+    displayWatchlist(myWatchlist)
+  }
+}
+
+function displayEmptyWatchlist() {
   let watchlistEmptyHtml = `
     <div class="watchlist-empty">
       <p class="watchlist-empty-text-body">
@@ -141,19 +158,7 @@ function renderWatchlist() {
     </div>
   `
 
-  if (localStorage.getItem("myWatchlist")) {
-    myWatchlist = JSON.parse(localStorage.getItem("myWatchlist"))
-  }
-
-  if (myWatchlist.length === 0) {
-    moviesEl.innerHTML = watchlistEmptyHtml
-  } else {
-    displayWatchlist(myWatchlist)
-  }
-  
-  // const displayWatchlistHtml = myWatchlist.length > 0 ? watchlistHtml : watchlistEmptyHtml
-
-  // moviesEl.innerHTML = displayWatchlistHtml
+  moviesEl.innerHTML = watchlistEmptyHtml
 }
 
 // get movie data for each movie
@@ -183,9 +188,9 @@ async function displayWatchlist(myWatchlist) {
           <div class="movie-text-info">
             <p class="movie-time">${movie.Runtime}</p>
             <p class="movie-genre">${movie.Genre}</p>
-            <button class="movie-add-to-watchlist-btn" data-movie-id=${movie.imdbID}>
-              <i class="fa-solid fa-circle-plus fa-lg plus-btn"></i>
-              Watchlist
+            <button class="movie-watchlist-btn" data-movie-id=${movie.imdbID}>
+              <i class="fa-solid fa-circle-minus fa-lg minus-btn"></i>
+              Remove
             </button>
           </div>
           <p class="movie-description">${movie.Plot}</p>
@@ -197,7 +202,32 @@ async function displayWatchlist(myWatchlist) {
   moviesEl.innerHTML = watchlistHtml
 }
 
+function handleRemoveFromWatchlist(e) {
+  // Get Target Movie ID 
+  let targetMovieId
+  if (e.target.classList.contains('movie-watchlist-btn')) {
+    targetMovieId = e.target.dataset.movieId
+  } else if (e.target.classList.contains('minus-btn')) {
+    targetMovieId = e.target.parentElement.dataset.movieId
+  }
 
+  // if our remove btn is clicked, remove that item. 
+  if (targetMovieId) {
+    let index = myWatchlist.indexOf(targetMovieId)
+    // remove item from watchlist
+    myWatchlist.splice(index, 1)
+
+    // update local storage 
+    localStorage.setItem("myWatchlist", JSON.stringify(myWatchlist))
+
+    // render watchlist 
+    if (myWatchlist.length === 0) {
+      displayEmptyWatchlist()
+    } else {
+      displayWatchlist(myWatchlist)
+    }
+  }  
+}
 
 
 /* 

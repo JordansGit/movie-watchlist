@@ -84,7 +84,7 @@ body {
   font-size: 1.125rem;
   font-weight: 500;
 }
-.movie-rating, .movie-time, .movie-genre, .movie-add-to-watchlist-btn {
+.movie-rating, .movie-time, .movie-genre, .movie-watchlist-btn {
   font-size: 0.75rem;
   font-weight: 400;
   color: #111827;
@@ -252,10 +252,10 @@ button {
 .movie-genre {
   margin: 0 2.7em 0 1.8em;
 }
-.movie-add-to-watchlist-btn {
+.movie-watchlist-btn {
   min-width: max-content;
 }
-.plus-btn {
+.plus-btn, .minus-btn {
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
