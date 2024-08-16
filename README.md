@@ -22,3 +22,6 @@
 - JavaScript
 - API https://www.omdbapi.com/ 
 
+### Comments 
+
+There is a delay when searching for a movie (probably die to the way I coded it), please wait up to 6 sec for it to load when making a search. 
